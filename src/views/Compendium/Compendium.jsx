@@ -9,6 +9,7 @@ import {
 import './Compendium.css';
 import Controls from '../../components/Controls/Controls';
 import pokeball from '../../assets/pokeball.png';
+import FilterForm from '../../components/Forms/FilterForm';
 
 export default function Compendium() {
   const [loading, setLoading] = useState(true);
@@ -17,46 +18,45 @@ export default function Compendium() {
   const [types, setTypes] = useState([]);
   const [selectedType, setSelectedType] = useState('all');
 
-  //TODO 😖 help!
+  //Done 
   if (pokemons.count !== 0) {
     useEffect(() => {
       const getPokemon = async () => {
         const pokemonList = await fetchPokemon();
-         setPokemons(pokemonList);
+        setPokemons(pokemonList);
         setLoading(false);
       };
       getPokemon();
     }, [pokemons]);
   }
 
-  //TODO 😖 help!
-  //   useEffect(async () => {
-  //      function getTypes() {
-  //       const pokemonTypes = fetchTypes();
-  //       setTypes(pokemonTypes);
-  //     }
-  //     getTypes();
-  //   }, []);
+  //Done
+    useEffect( () => {
+       async function getTypes() {
+        const pokemonTypes = await fetchTypes();
+        setTypes(pokemonTypes);
+      }
+      getTypes();
+    }, []);
 
   //TODO 😖 help!
-  // useEffect(() => {
-  //   async function getFilteredPokemon() {
-  //     if (!selectedType) return;
-  //     setLoading(true);
+  useEffect(() => {
+    async function getFilteredPokemon() {
+      if (!selectedType) return;
+      setLoading(true);
 
-  //     if (selectedType !== 'all') {
-  //       const filteredPokemon = await fetchFilteredPokemon(selectedType);
-  //       setPokemons(filteredPokemon);
-  //     } else {
-  //       const pokemonList = await fetchPokemon();
-  //       this.setState({pokemons: pokemonList});
-  //     }
-  //     setLoading(false);
-  //     setSort('');
-  //   }
+      if (selectedType !== 'all') {
+        const filteredPokemon = await fetchFilteredPokemon(selectedType);
+        setPokemons(filteredPokemon);
+      } else {
+        const pokemonList = await fetchPokemon();
+        setPokemons(pokemonList);
+      }
+      setLoading(false);
+    }
 
-  //   getFilteredPokemon();
-  // }, [selectedType]);
+    getFilteredPokemon();
+  }, [selectedType]);
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -87,12 +87,16 @@ export default function Compendium() {
           types={types}
           filterChange={setSelectedType}
           selectedType={selectedType}
-        />
+        /> 
         {loading ? (
           <code>Search for the bugs in the code!</code>
         ) : (
           <PokemonList pokemons={pokemons} />
         )}
+        {/* IDEA: <FilterForm types={types}
+        filterChange={setSelectedType}
+        selectedType={selectedType} 
+        /> */}
       </main>
     </div>
   );
