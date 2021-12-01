@@ -27,7 +27,7 @@ export default function Compendium() {
         setLoading(false);
       };
       getPokemon();
-    }, [pokemons]);
+    }, []);
   }
 
   //Done
@@ -39,7 +39,7 @@ export default function Compendium() {
       getTypes();
     }, []);
 
-  //TODO 😖 help!
+  //Done
   useEffect(() => {
     async function getFilteredPokemon() {
       if (!selectedType) return;
@@ -63,7 +63,7 @@ export default function Compendium() {
     setLoading(true);
     fetchSearchPokemon(searchName)
       .then((searchedPokemons) => {
-        this.setState({pokemons: searchedPokemons});
+       setPokemons(searchedPokemons);
       })
       .catch((error) => {})
       .finally(() => {
